@@ -48,3 +48,5 @@ def find_round_object(
         return cv2.minEnclosingCircle(object)
 
     return None, None
+
+ball_pos, ball_radius = find_round_object(imageHSV, [15, 150, 50], [25, 255, 255])
