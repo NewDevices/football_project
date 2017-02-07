@@ -46,3 +46,5 @@ def find_round_object(
         object = max(object_contours, key=cv2.contourArea)
 
         return cv2.minEnclosingCircle(object)
+
+    return None, None
