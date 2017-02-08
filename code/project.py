@@ -8,7 +8,7 @@ capture_path = "../capture.png"
 
 image = cv2.imread(capture_path)
 imageHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-imageHSV = cv2.medianBlur(imageHSV, 9)
+imageHSV = cv2.medianBlur(imageHSV, 5)
 
 plt.imshow(cv2.cvtColor(imageHSV, cv2.COLOR_HSV2RGB))
 plt.show()
