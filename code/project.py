@@ -14,20 +14,20 @@ plt.imshow(cv2.cvtColor(imageHSV, cv2.COLOR_HSV2RGB))
 plt.show()
 
 
-def find_round_object(
+def find_contours(
         hsv: np.ndarray
         , color_lower: list
         , color_upper: list
         , ed_iterations: int = 3
 ):
     """
-    Find a round object.
+    Find the contours of an object.
 
     :param hsv: The image in HSV format
     :param color_lower: The lower color threshold (in HSV)
     :param color_upper: The upper color threshold (in HSV)
     :param ed_iterations: The number of iterations for erosion and dilation
-    :return: (x,y), radius if an object is found
+    :return: The contours found
     """
     color_lower = np.uint8(color_lower)
     color_upper = np.uint8(color_upper)
@@ -36,17 +36,28 @@ def find_round_object(
     object_mask = cv2.erode(object_mask, None, iterations=ed_iterations)
     object_mask = cv2.dilate(object_mask, None, iterations=ed_iterations)
 
-    object_contours = cv2.findContours(
+    return cv2.findContours(
         object_mask
         , cv2.RETR_LIST
         , cv2.CHAIN_APPROX_SIMPLE
-    )[1]
+    )
 
-    if len(object_contours):
-        object = max(object_contours, key=cv2.contourArea)
 
+def find_round_object(
+        contours
+):
+    """
+    Find a round object.
+
+    :param contours: The contours found the in image.
+    :return: (x,y), radius if an object is found
+    """
+    if len(contours):
+        object = max(contours, key=cv2.contourArea)
         return cv2.minEnclosingCircle(object)
 
     return None, None
 
-ball_pos, ball_radius = find_round_object(imageHSV, [15, 150, 50], [25, 255, 255])
+
+ball_contours = find_contours(imageHSV, [15, 150, 50], [25, 255, 255])[1]
+ball_pos, ball_radius = find_round_object(ball_contours)
