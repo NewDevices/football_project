@@ -77,5 +77,5 @@ ball_contours = find_contours(
 ball_pos, ball_radius = find_round_object(ball_contours)
 
 blue_car_contours = find_contours(
-    make_mask(imageHSV, [90, 25, 10], [120, 255, 255])
+    make_mask(imageHSV, [90, 128, 10], [120, 255, 255])
 )[1]
