@@ -18,7 +18,6 @@ def make_mask(
         hsv: np.ndarray
         , color_lower: list
         , color_upper: list
-        , ed_iterations: int = 3
 ):
     """
     Make a mask that captures pixels in a color range.
@@ -33,8 +32,7 @@ def make_mask(
     color_upper = np.uint8(color_upper)
 
     object_mask = cv2.inRange(hsv, color_lower, color_upper)
-    object_mask = cv2.erode(object_mask, None, iterations=ed_iterations)
-    object_mask = cv2.dilate(object_mask, None, iterations=ed_iterations)
+    object_mask = cv2.blur(object_mask, (3, 3))
 
     return object_mask
 
