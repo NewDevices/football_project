@@ -43,7 +43,7 @@ def find_contours(
     """
     Find the contours in a mask.
 
-    :param hsv: The mask
+    :param mask: The mask
     :return: The contours found
     """
     return cv2.findContours(
