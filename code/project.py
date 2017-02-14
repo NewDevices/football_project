@@ -69,6 +69,14 @@ def find_round_object(
     return None, None
 
 
+def normalize(vector: np.ndarray):
+    """
+    :param vector: A vector
+    :return: The normalized vector
+    """
+    return vector / np.linalg.norm(vector)
+
+
 ball_contours = find_contours(
     make_mask(imageHSV, [15, 150, 50], [25, 255, 255])
 )[1]
