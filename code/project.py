@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-
+import itertools
 
 # author: Hendrik Werner s4549775
 
@@ -86,6 +86,39 @@ def angle(v1: np.ndarray, v2: np.ndarray):
     v1 = normalize(v1)
     v2 = normalize(v2)
     return np.arccos(np.clip(np.dot(v1, v2), a_min=-1, a_max=1))
+
+
+def find_angled_lines(
+        contours
+        , arrow_angle: int
+):
+    """
+    Find two lines with a specific angle.
+
+    :param contours: The contours to find the lines in
+    :param arrow_angle: The angle in degrees
+    :return: (l1, l2) where l1 and l2 are the lines which are closest to the
+             specified angle
+    """
+    contour_img = np.zeros(image.shape[:2], dtype=np.uint8)
+    cv2.drawContours(contour_img, contours, -1, 255)
+    contour_img = cv2.blur(contour_img, (2, 2))
+
+    lines = cv2.HoughLinesP(contour_img, 1, np.pi / 180, 15, 5, 10)
+    lines = np.array(lines)[:, 0, :]
+
+    vectors = [
+        (i, [x2 - x1, y2 - y1]) for i, (x1, y1, x2, y2) in enumerate(lines)
+        ]
+    vector_combinations = itertools.combinations(vectors, 2)
+    arrow_angle = arrow_angle * np.pi / 180
+    best = min(
+        vector_combinations
+        , key=lambda c: abs(arrow_angle - angle(c[0][1], c[1][1]))
+    )
+    best = [lines[i] for i, _ in best]
+
+    return best
 
 
 ball_contours = find_contours(
