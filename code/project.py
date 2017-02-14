@@ -77,6 +77,17 @@ def normalize(vector: np.ndarray):
     return vector / np.linalg.norm(vector)
 
 
+def angle(v1: np.ndarray, v2: np.ndarray):
+    """
+    :param v1: One vector
+    :param v2: Another vector
+    :return: Angle between the two vectors
+    """
+    v1 = normalize(v1)
+    v2 = normalize(v2)
+    return np.arccos(np.clip(np.dot(v1, v2), a_min=-1, a_max=1))
+
+
 ball_contours = find_contours(
     make_mask(imageHSV, [15, 150, 50], [25, 255, 255])
 )[1]
