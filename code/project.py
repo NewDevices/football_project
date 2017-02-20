@@ -15,7 +15,7 @@ def make_mask(
         hsv: np.ndarray
         , color_lower: list
         , color_upper: list
-):
+) -> np.ndarray:
     """
     Make a mask that captures pixels in a color range.
 
@@ -36,7 +36,7 @@ def make_mask(
 
 def find_contours(
         mask: np.ndarray
-):
+) -> tuple:
     """
     Find the contours in a mask.
 
@@ -52,7 +52,7 @@ def find_contours(
 
 def find_round_object(
         contours
-):
+) -> tuple:
     """
     Find a round object.
 
@@ -66,7 +66,9 @@ def find_round_object(
     return None, None
 
 
-def normalize(vector: np.ndarray):
+def normalize(
+        vector: np.ndarray
+) -> np.ndarray:
     """
     :param vector: A vector
     :return: The normalized vector
@@ -74,7 +76,9 @@ def normalize(vector: np.ndarray):
     return vector / np.linalg.norm(vector)
 
 
-def angle(v1: np.ndarray, v2: np.ndarray):
+def angle(
+        v1: np.ndarray, v2: np.ndarray
+) -> np.float64:
     """
     :param v1: One vector
     :param v2: Another vector
@@ -88,7 +92,7 @@ def angle(v1: np.ndarray, v2: np.ndarray):
 def find_angled_lines(
         contours
         , arrow_angle: int
-):
+) -> list:
     """
     Find two lines with a specific angle.
 
