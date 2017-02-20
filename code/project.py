@@ -160,3 +160,4 @@ blue_car_contours = find_contours(
     make_mask(imageHSV, [90, 128, 10], [120, 255, 255])
 )[1]
 blue_car_lines = find_angled_lines(blue_car_contours, 32)
+blue_car_tip = find_intersection(*blue_car_lines)
