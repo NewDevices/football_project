@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import itertools
+from typing import Optional
 
 # author: Hendrik Werner s4549775
 
@@ -119,6 +120,35 @@ def find_angled_lines(
     best = [lines[i] for i, _ in best]
 
     return best
+
+
+def find_intersection(
+        l1: np.ndarray
+        , l2: np.ndarray
+) -> Optional[np.ndarray]:
+    """
+    Find the intersection of two lines if it exists. Lines are specified as
+    pairs of points: [[x1, y1], [x2, y2]].
+
+    This function was inspired by http://stackoverflow.com/a/7448287/4637060.
+
+    :param l1: The first line
+    :param l2: The second line
+    :return: The intersection if it exists
+    """
+    l1 = l1.reshape((2, 2))
+    l2 = l2.reshape((2, 2))
+
+    x = l2[0] - l1[0]
+    d1 = l1[1] - l1[0]
+    d2 = l2[1] - l2[0]
+    cross = np.cross(d1, d2)
+
+    if abs(cross) < 1e-8:
+        return
+
+    t1 = (x[0] * d2[1] - x[1] * d2[0]) / cross
+    return l1[0] + d1 * t1
 
 
 ball_contours = find_contours(
