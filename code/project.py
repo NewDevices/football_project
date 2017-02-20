@@ -168,7 +168,7 @@ def find_car(
     if not car_pos:
         return None, None
 
-    car_lines = find_angled_lines(blue_car_contours, arrow_angle)
+    car_lines = find_angled_lines(contours, arrow_angle)
 
     if len(car_lines) < 2:
         return None, None
