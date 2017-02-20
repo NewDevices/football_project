@@ -154,7 +154,7 @@ def find_intersection(
 def find_car(
         contours: list
         , arrow_angle: int = 32
-):
+) -> tuple:
     """
     Find a car.
 
