@@ -151,6 +151,32 @@ def find_intersection(
     return l1[0] + d1 * t1
 
 
+def find_car(
+        contours: list
+        , arrow_angle: int = 32
+):
+    """
+    Find a car.
+
+    :param contours: Contours of the car
+    :param arrow_angle: Angle of the car arrow
+    :return: None, None if no car is found
+             car_center, car_tip otherwise
+    """
+    car_pos, _ = find_round_object(contours)
+
+    if not car_pos:
+        return None, None
+
+    car_lines = find_angled_lines(blue_car_contours, arrow_angle)
+
+    if len(car_lines) < 2:
+        return None, None
+
+    car_tip = find_intersection(*car_lines)
+    return car_pos, car_tip
+
+
 ball_contours = find_contours(
     make_mask(imageHSV, [15, 150, 50], [25, 255, 255])
 )[1]
@@ -159,9 +185,4 @@ ball_pos, ball_radius = find_round_object(ball_contours)
 blue_car_contours = find_contours(
     make_mask(imageHSV, [90, 128, 10], [120, 255, 255])
 )[1]
-blue_car_pos, _ = find_round_object(blue_car_contours)
-blue_car_lines = blue_car_tip = None
-
-if blue_car_pos:
-    blue_car_lines = find_angled_lines(blue_car_contours, 32)
-    blue_car_tip = find_intersection(*blue_car_lines)
+blue_car_pos, blue_car_tip = find_car(blue_car_contours)
