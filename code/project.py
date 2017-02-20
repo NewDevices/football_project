@@ -105,8 +105,7 @@ def find_angled_lines(
     cv2.drawContours(contour_img, contours, -1, 255)
     contour_img = cv2.blur(contour_img, (2, 2))
 
-    lines = cv2.HoughLinesP(contour_img, 1, np.pi / 180, 15, 5, 10)
-    lines = np.array(lines)[:, 0, :]
+    lines = cv2.HoughLinesP(contour_img, 1, np.pi / 180, 15, 5, 10).squeeze()
 
     vectors = [
         (i, [x2 - x1, y2 - y1]) for i, (x1, y1, x2, y2) in enumerate(lines)
