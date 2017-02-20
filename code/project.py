@@ -186,3 +186,9 @@ blue_car_contours = find_contours(
     make_mask(imageHSV, [90, 128, 10], [120, 255, 255])
 )[1]
 blue_car_pos, blue_car_tip = find_car(blue_car_contours)
+
+red_car_contours = find_contours(
+    make_mask(imageHSV, [170, 128, 10], [180, 255, 255])
+    + make_mask(imageHSV, [0, 128, 10], [10, 255, 255])
+)[1]
+red_car_pos, red_car_tip = find_car(red_car_contours)
