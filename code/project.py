@@ -136,7 +136,7 @@ def find_angled_lines(
     arrow_angle = arrow_angle * np.pi / 180
     best = min(
         vector_combinations
-        , key=lambda c: abs(arrow_angle - angle(c[0][1], c[1][1]))
+        , key=lambda c: abs(arrow_angle - smaller_angle(c[0][1], c[1][1]))
     )
     best = [lines[i] for i, _ in best]
 
