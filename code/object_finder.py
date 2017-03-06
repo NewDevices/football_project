@@ -106,7 +106,7 @@ class CarFinder(BallFinder):
             self,
             v1: np.ndarray,
             v2: np.ndarray,
-    ) -> np.float64:
+    ) -> float:
         """
         :param v1: One vector
         :param v2: Another vector
