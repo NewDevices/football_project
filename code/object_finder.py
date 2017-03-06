@@ -179,6 +179,11 @@ class CarFinder(BallFinder):
         arr_tip = intersection(*arr_lines)
         return arr_pos, arr_tip
 
+    def find_ball(
+            self,
+    ):
+        raise AttributeError("Use a BallFinder to find balls.")
+
     def find_car(
             self,
     ):
