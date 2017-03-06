@@ -23,7 +23,7 @@ class ObjectFinder(object):
         """
         assert len(color_lower) == len(color_upper)
 
-        self._image = image_hsv
+        self.image = image_hsv
         self._color_lower = np.uint8(color_lower)
         self._color_upper = np.uint8(color_upper)
 
@@ -35,10 +35,10 @@ class ObjectFinder(object):
 
         :return: The generated mask
         """
-        object_mask = np.zeros(self._image.shape[:2], dtype=np.uint8)
+        object_mask = np.zeros(self.image.shape[:2], dtype=np.uint8)
         for lower, upper in zip(self._color_lower, self._color_upper):
             object_mask += cv2.inRange(
-                self._image,
+                self.image,
                 lower,
                 upper,
             )
@@ -129,7 +129,7 @@ class CarFinder(BallFinder):
         :return: [l1, l2] where l1 and l2 are the lines which are closest to
                  the specified angle
         """
-        contour_img = np.zeros(self._image.shape[:2], dtype=np.uint8)
+        contour_img = np.zeros(self.image.shape[:2], dtype=np.uint8)
         cv2.drawContours(contour_img, contours, -1, 255)
         contour_img = cv2.blur(contour_img, (2, 2))
 
