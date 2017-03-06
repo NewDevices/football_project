@@ -1,4 +1,7 @@
 *.png
 
+# IDE folder
+.idea/
+
 # Python Cache
 __pycache__/
