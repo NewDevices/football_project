@@ -7,7 +7,6 @@ capture_path = "../capture.png"
 
 image = cv2.imread(capture_path)
 imageHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-imageHSV = cv2.medianBlur(imageHSV, 3)
 
 analyzer = Analyzer(
     lower_ball=[[15, 128, 50]],

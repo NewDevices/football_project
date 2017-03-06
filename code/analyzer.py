@@ -22,6 +22,8 @@ class Analyzer(object):
             self,
             image_hsv,
     ) -> None:
+        image_hsv = cv2.medianBlur(image_hsv, 3)
+
         self._ball_finder.image = image_hsv
         self._blue_car_finder.image = image_hsv
         self._red_car_finder.image = image_hsv
