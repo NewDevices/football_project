@@ -10,9 +10,9 @@ from helper_functions import angle, intersection
 class ObjectFinder(object):
     def __init__(
             self,
-            image_hsv: np.ndarray,
             color_lower: List[List[int]],
             color_upper: List[List[int]],
+            image_hsv: np.ndarray = None,
     ):
         """
         Initialize an object finder.
