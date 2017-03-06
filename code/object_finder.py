@@ -47,7 +47,7 @@ class ObjectFinder(object):
     def find_contours(
             self,
             mask: np.ndarray,
-    ) -> list:
+    ) -> List[np.ndarray]:
         """
         Find the contours in a mask.
 
@@ -141,7 +141,7 @@ class CarFinder(BallFinder):
             self,
             contours,
             arrow_angle: int,
-    ) -> list:
+    ) -> List[np.ndarray]:
         """
         Find two lines with a specific angle.
 
