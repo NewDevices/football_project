@@ -1,3 +1,5 @@
+# author: Hendrik Werner s4549775
+
 import cv2
 import numpy as np
 import itertools
