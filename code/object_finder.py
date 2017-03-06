@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 import itertools
-from typing import List
+from typing import List, Optional
 from helper_functions import angle, intersection
 
 
@@ -157,27 +157,26 @@ class CarFinder(BallFinder):
             self,
             contours: list,
             arrow_angle: int = 32,
-    ) -> tuple:
+    ) -> Optional[np.ndarray]:
         """
         Find an arrow.
 
         :param contours: Contours of the arrow
         :param arrow_angle: Angle of the arrow
-        :return: (None, None) if no arrow is found
-                 ((center_x, center_y), (tip_x, tip_y)) otherwise
+        :return: [[center_x, center_y][tip_x, tip_y]] if an arrow is found
         """
         arr_pos = self.find_round_object(contours)[0]
 
         if not arr_pos:
-            return None, None
+            return
 
         arr_lines = self.find_angled_lines(contours, arrow_angle)
 
         if len(arr_lines) < 2:
-            return None, None
+            return
 
         arr_tip = intersection(*arr_lines)
-        return arr_pos, arr_tip
+        return np.array([arr_pos, arr_tip], dtype=int)
 
     def find_ball(
             self,
@@ -190,7 +189,7 @@ class CarFinder(BallFinder):
         """
         Find the car.
 
-        :return: ((center_x, center_y), (tip_x, tip_y)) of the car
+        :return: [[center_x, center_y][tip_x, tip_y]] of the car
         """
         mask = self.make_mask()
         contours = self.find_contours(mask)
