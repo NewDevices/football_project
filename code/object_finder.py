@@ -166,7 +166,7 @@ class CarFinder(BallFinder):
         :return: (None, None) if no arrow is found
                  ((center_x, center_y), (tip_x, tip_y)) otherwise
         """
-        arr_pos, _ = self.find_round_object(contours)
+        arr_pos = self.find_round_object(contours)[0]
 
         if not arr_pos:
             return None, None
