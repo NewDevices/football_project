@@ -22,6 +22,33 @@ class Analyzer(object):
         self._blue_car_finder = CarFinder(lower_blue, upper_blue)
         self._red_car_finder = CarFinder(lower_red, upper_red)
 
+    def analyze_car(
+            self,
+            ball_pos: np.ndarray,
+            car: np.ndarray,
+            color: str = "",
+    ) -> None:
+        """
+        Analyze a car.
+
+        :param ball_pos: Position of the ball
+        :param car: [[x, y], [tip_x, tip_y]] of the car
+        :param color: Color of the car
+        """
+        if car is None:
+            print("No {} car found.".format(color), file=sys.stderr)
+        else:
+            car_pos, car_tip = car
+            car_vector = car_tip - car_pos
+            car_ball_vector = ball_pos - car_pos
+            car_angle = as_deg(angle(
+                car_vector,
+                car_ball_vector,
+            ))
+
+            print("{} Car:".format(color.capitalize()), car_pos, car_tip)
+            print("Angle:", car_angle)
+
     def analyze(
             self,
             image_hsv: np.ndarray,
@@ -42,30 +69,5 @@ class Analyzer(object):
         ball_pos, ball_radius = ball
         print("Ball:", ball_pos, ball_radius)
 
-        if blue_car is None:
-            print("No blue car found.", file=sys.stderr)
-        else:
-            blue_car_pos, blue_car_tip = blue_car
-            blue_car_vector = blue_car_tip - blue_car_pos
-            blue_car_ball_vector = ball_pos - blue_car_pos
-            blue_car_angle = as_deg(angle(
-                blue_car_vector,
-                blue_car_ball_vector,
-            ))
-
-            print("Blue Car:", blue_car_pos, blue_car_tip)
-            print("Angle:", blue_car_angle)
-
-        if red_car is None:
-            print("No red car found.", file=sys.stderr)
-        else:
-            red_car_pos, red_car_tip = red_car
-            red_car_vector = red_car_tip - red_car_pos
-            red_car_ball_vector = ball_pos - red_car_pos
-            red_car_angle = as_deg(angle(
-                red_car_vector,
-                red_car_ball_vector,
-            ))
-
-            print("Red Car:", red_car_pos, red_car_tip)
-            print("Angle:", red_car_angle)
+        self.analyze_car(ball_pos, blue_car, color="blue")
+        self.analyze_car(ball_pos, red_car, color="red")
