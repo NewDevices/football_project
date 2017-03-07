@@ -176,7 +176,7 @@ class CarFinder(BallFinder):
             return
 
         arr_tip = intersection(*arr_lines)
-        return np.array([arr_pos, arr_tip], dtype=int)
+        return np.rint([arr_pos, arr_tip]).astype(int)
 
     def find_ball(
             self,
