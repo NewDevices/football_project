@@ -1,5 +1,6 @@
 # author: Hendrik Werner s4549775
 
+import cv2
 from typing import List
 from object_finder import CarFinder, BallFinder
 
