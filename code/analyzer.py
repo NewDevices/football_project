@@ -2,6 +2,7 @@
 
 import cv2
 from typing import List
+from helper_functions import angle, as_deg
 from object_finder import CarFinder, BallFinder
 
 
@@ -31,6 +32,15 @@ class Analyzer(object):
         ball_pos, ball_radius = self._ball_finder.find_ball()
         blue_car_pos, blue_car_tip = self._blue_car_finder.find_car()
         red_car_pos, red_car_tip = self._red_car_finder.find_car()
+
+        blue_car_angle = as_deg(angle(
+            blue_car_tip - blue_car_pos,
+            ball_pos - blue_car_pos,
+        ))
+        red_car_angle = as_deg(angle(
+            red_car_tip - red_car_pos,
+            ball_pos - red_car_pos,
+        ))
 
         print("Ball:", ball_pos, ball_radius)
         print("Blue Car:", blue_car_pos, blue_car_tip)
