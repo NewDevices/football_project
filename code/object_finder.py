@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import itertools
 from typing import List, Optional
-from helper_functions import angle, intersection
+from helper_functions import angle, as_rad, intersection
 
 
 class ObjectFinder(object):
@@ -110,7 +110,7 @@ class CarFinder(BallFinder):
                           that will be discarded.
         :return: Minimum angle between v1 and v2 that is at least min_angle
         """
-        min_angle = min_angle * np.pi / 180
+        min_angle = as_rad(min_angle)
         angles = [angle(v1, v2)]
         angles.append(np.pi - angles[0])
         filter(lambda a: a >= min_angle, angles)
@@ -142,7 +142,7 @@ class CarFinder(BallFinder):
             (i, [x2 - x1, y2 - y1]) for i, (x1, y1, x2, y2) in enumerate(lines)
             ]
         vector_combinations = itertools.combinations(vectors, 2)
-        arrow_angle = arrow_angle * np.pi / 180
+        arrow_angle = as_rad(arrow_angle)
         best = min(
             vector_combinations,
             key=lambda c: abs(
