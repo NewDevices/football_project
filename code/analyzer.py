@@ -3,6 +3,7 @@
 import cv2
 import sys
 import numpy as np
+from numpy.linalg import norm
 from typing import List
 from helper_functions import angle, as_deg
 from object_finder import CarFinder, BallFinder
@@ -45,9 +46,10 @@ class Analyzer(object):
                 car_vector,
                 car_ball_vector,
             ))
+            dist_to_ball = norm(car_ball_vector) / norm(car_vector) - 1
 
             print("{} Car:".format(color.capitalize()), car_pos, car_tip)
-            print("Angle:", car_angle)
+            print("Angle:", car_angle, "Distance:", dist_to_ball)
 
     def analyze(
             self,
