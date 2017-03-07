@@ -28,6 +28,16 @@ def angle(
     return np.arccos(np.clip(np.dot(v1, v2), a_min=-1, a_max=1))
 
 
+def as_deg(
+        angle_rad: float,
+) -> float:
+    """
+    :param angle_rad: An angle in radians
+    :return: The angle in degrees
+    """
+    return angle_rad * 180 / np.pi
+
+
 def intersection(
         l1: np.ndarray,
         l2: np.ndarray,
