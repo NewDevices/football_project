@@ -2,6 +2,7 @@
 
 import cv2
 import sys
+import numpy as np
 from typing import List
 from helper_functions import angle, as_deg
 from object_finder import CarFinder, BallFinder
@@ -23,7 +24,7 @@ class Analyzer(object):
 
     def analyze(
             self,
-            image_hsv,
+            image_hsv: np.ndarray,
     ) -> None:
         image_hsv = cv2.medianBlur(image_hsv, 3)
 
