@@ -38,6 +38,16 @@ def as_deg(
     return angle_rad * 180 / np.pi
 
 
+def as_rad(
+        angle_deg: float,
+) -> float:
+    """
+    :param angle_deg: An angle in degrees
+    :return: The angle in radians
+    """
+    return angle_deg * np.pi / 180
+
+
 def intersection(
         l1: np.ndarray,
         l2: np.ndarray,
