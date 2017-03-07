@@ -1,6 +1,7 @@
 # author: Hendrik Werner s4549775
 
 import cv2
+import sys
 from typing import List
 from helper_functions import angle, as_deg
 from object_finder import CarFinder, BallFinder
@@ -29,19 +30,41 @@ class Analyzer(object):
         self._ball_finder.image = image_hsv
         self._blue_car_finder.image = image_hsv
         self._red_car_finder.image = image_hsv
-        ball_pos, ball_radius = self._ball_finder.find_ball()
-        blue_car_pos, blue_car_tip = self._blue_car_finder.find_car()
-        red_car_pos, red_car_tip = self._red_car_finder.find_car()
 
-        blue_car_angle = as_deg(angle(
-            blue_car_tip - blue_car_pos,
-            ball_pos - blue_car_pos,
-        ))
-        red_car_angle = as_deg(angle(
-            red_car_tip - red_car_pos,
-            ball_pos - red_car_pos,
-        ))
+        ball = self._ball_finder.find_ball()
+        blue_car = self._blue_car_finder.find_car()
+        red_car = self._red_car_finder.find_car()
 
+        if ball is None:
+            print("No ball found.", file=sys.stderr)
+            return
+        ball_pos, ball_radius = ball
         print("Ball:", ball_pos, ball_radius)
-        print("Blue Car:", blue_car_pos, blue_car_tip)
-        print("Red Car:", red_car_pos, red_car_tip)
+
+        if blue_car is None:
+            print("No blue car found.", file=sys.stderr)
+        else:
+            blue_car_pos, blue_car_tip = blue_car
+            blue_car_vector = blue_car_tip - blue_car_pos
+            blue_car_ball_vector = ball_pos - blue_car_pos
+            blue_car_angle = as_deg(angle(
+                blue_car_vector,
+                blue_car_ball_vector,
+            ))
+
+            print("Blue Car:", blue_car_pos, blue_car_tip)
+            print("Angle:", blue_car_angle)
+
+        if red_car is None:
+            print("No red car found.", file=sys.stderr)
+        else:
+            red_car_pos, red_car_tip = red_car
+            red_car_vector = red_car_tip - red_car_pos
+            red_car_ball_vector = ball_pos - red_car_pos
+            red_car_angle = as_deg(angle(
+                red_car_vector,
+                red_car_ball_vector,
+            ))
+
+            print("Red Car:", red_car_pos, red_car_tip)
+            print("Angle:", red_car_angle)

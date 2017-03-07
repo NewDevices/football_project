@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 import itertools
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from helper_functions import angle, as_rad, intersection
 
 
@@ -68,18 +68,17 @@ class BallFinder(ObjectFinder):
     def find_round_object(
             self,
             contours,
-    ) -> tuple:
+    ) -> Optional[Tuple[np.ndarray, int]]:
         """
         Find a round object.
 
         :param contours: The contours found the in image.
-        :return: ((x, y), radius) if an object is found
+        :return: ([x, y], radius) if an object is found
         """
         if len(contours):
             object = max(contours, key=cv2.contourArea)
-            return cv2.minEnclosingCircle(object)
-
-        return None, None
+            pos, radius = cv2.minEnclosingCircle(object)
+            return np.rint(pos).astype(int), int(radius)
 
     def find_ball(
             self,
@@ -87,7 +86,7 @@ class BallFinder(ObjectFinder):
         """
         Find the ball.
 
-        :return: ((x, y), radius) of the ball
+        :return: ([x, y], radius) of the ball if it is found
         """
         mask = self.make_mask()
         contours = self.find_contours(mask)
@@ -165,11 +164,12 @@ class CarFinder(BallFinder):
         :param arrow_angle: Angle of the arrow
         :return: [[center_x, center_y][tip_x, tip_y]] if an arrow is found
         """
-        arr_pos = self.find_round_object(contours)[0]
+        arrow = self.find_round_object(contours)
 
-        if not arr_pos:
+        if arrow is None:
             return
 
+        arr_pos = arrow[0]
         arr_lines = self.find_angled_lines(contours, arrow_angle)
 
         if len(arr_lines) < 2:
@@ -189,7 +189,7 @@ class CarFinder(BallFinder):
         """
         Find the car.
 
-        :return: [[center_x, center_y][tip_x, tip_y]] of the car
+        :return: [[center_x, center_y][tip_x, tip_y]] of the car if it is found
         """
         mask = self.make_mask()
         contours = self.find_contours(mask)
