@@ -4,7 +4,7 @@ import cv2
 import sys
 import numpy as np
 from numpy.linalg import norm
-from typing import List
+from typing import List, Optional, Tuple
 from helper_functions import angle, as_deg
 from object_finder import CarFinder, BallFinder
 
@@ -28,13 +28,14 @@ class Analyzer(object):
             ball_pos: np.ndarray,
             car: np.ndarray,
             color: str = "",
-    ) -> None:
+    ) -> Optional[Tuple[float, float]]:
         """
         Analyze a car.
 
         :param ball_pos: Position of the ball
         :param car: [[x, y], [tip_x, tip_y]] of the car
         :param color: Color of the car
+        :return: (dist_to_ball, car_angle) if the car is not None
         """
         if car is None:
             print("No {} car found.".format(color), file=sys.stderr)
@@ -46,10 +47,11 @@ class Analyzer(object):
                 car_vector,
                 car_ball_vector,
             ))
-            dist_to_ball = norm(car_ball_vector) / norm(car_vector) - 1
+            dist_to_ball = float(norm(car_ball_vector) / norm(car_vector) - 1)
 
             print("{} Car:".format(color.capitalize()), car_pos, car_tip)
             print("Angle:", car_angle, "Distance:", dist_to_ball)
+            return dist_to_ball, car_angle
 
     def analyze(
             self,
