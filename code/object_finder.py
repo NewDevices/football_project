@@ -44,13 +44,11 @@ class ObjectFinder(object):
 
     def find_contours(
             self,
-    ) -> List[np.ndarray]:
+    ) -> None:
         """
-        Find the contours in a mask.
-
-        :return: The contours found
+        Find the contours in the mask.
         """
-        return cv2.findContours(
+        self.contours = cv2.findContours(
             self.mask,
             cv2.RETR_LIST,
             cv2.CHAIN_APPROX_SIMPLE,
@@ -60,7 +58,6 @@ class ObjectFinder(object):
 class BallFinder(ObjectFinder):
     def find_round_object(
             self,
-            contours,
     ) -> Optional[Tuple[np.ndarray, int]]:
         """
         Find a round object.
@@ -68,8 +65,8 @@ class BallFinder(ObjectFinder):
         :param contours: The contours found the in image.
         :return: ([x, y], radius) if an object is found
         """
-        if len(contours):
-            object = max(contours, key=cv2.contourArea)
+        if len(self.contours):
+            object = max(self.contours, key=cv2.contourArea)
             pos, radius = cv2.minEnclosingCircle(object)
             return np.rint(pos).astype(int), int(radius)
 
@@ -82,8 +79,8 @@ class BallFinder(ObjectFinder):
         :return: ([x, y], radius) of the ball if it is found
         """
         self.make_mask()
-        contours = self.find_contours()
-        return self.find_round_object(contours)
+        self.find_contours()
+        return self.find_round_object()
 
 
 class CarFinder(BallFinder):
@@ -110,7 +107,6 @@ class CarFinder(BallFinder):
 
     def find_angled_lines(
             self,
-            contours,
             arrow_angle: int,
     ) -> List[np.ndarray]:
         """
@@ -122,7 +118,7 @@ class CarFinder(BallFinder):
                  the specified angle
         """
         contour_img = np.zeros(self.image.shape[:2], dtype=np.uint8)
-        cv2.drawContours(contour_img, contours, -1, 255)
+        cv2.drawContours(contour_img, self.contours, -1, 255)
         contour_img = cv2.blur(contour_img, (2, 2))
 
         lines = cv2.HoughLinesP(contour_img, 1, np.pi / 180, 15, 5, 10)
@@ -147,7 +143,6 @@ class CarFinder(BallFinder):
 
     def find_arrow(
             self,
-            contours: list,
             arrow_angle: int = 32,
     ) -> Optional[np.ndarray]:
         """
@@ -157,13 +152,13 @@ class CarFinder(BallFinder):
         :param arrow_angle: Angle of the arrow
         :return: [[center_x, center_y][tip_x, tip_y]] if an arrow is found
         """
-        arrow = self.find_round_object(contours)
+        arrow = self.find_round_object()
 
         if arrow is None:
             return
 
         arr_pos = arrow[0]
-        arr_lines = self.find_angled_lines(contours, arrow_angle)
+        arr_lines = self.find_angled_lines(arrow_angle)
 
         if len(arr_lines) < 2:
             return
@@ -185,5 +180,5 @@ class CarFinder(BallFinder):
         :return: [[center_x, center_y][tip_x, tip_y]] of the car if it is found
         """
         self.make_mask()
-        contours = self.find_contours()
-        return self.find_arrow(contours)
+        self.find_contours()
+        return self.find_arrow()
