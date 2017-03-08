@@ -29,36 +29,29 @@ class ObjectFinder(object):
 
     def make_mask(
             self,
-    ) -> np.ndarray:
+    ) -> None:
         """
         Make a mask that captures pixels in a color range.
-
-        :return: The generated mask
         """
-        object_mask = np.zeros(self.image.shape[:2], dtype=np.uint8)
+        self.mask = np.zeros(self.image.shape[:2], dtype=np.uint8)
         for lower, upper in zip(self._color_lower, self._color_upper):
-            object_mask += cv2.inRange(
+            self.mask += cv2.inRange(
                 self.image,
                 lower,
                 upper,
             )
-
-        object_mask = cv2.blur(object_mask, (3, 3))
-
-        return object_mask
+        self.mask = cv2.blur(self.mask, (3, 3))
 
     def find_contours(
             self,
-            mask: np.ndarray,
     ) -> List[np.ndarray]:
         """
         Find the contours in a mask.
 
-        :param mask: The mask
         :return: The contours found
         """
         return cv2.findContours(
-            mask,
+            self.mask,
             cv2.RETR_LIST,
             cv2.CHAIN_APPROX_SIMPLE,
         )[1]
@@ -88,8 +81,8 @@ class BallFinder(ObjectFinder):
 
         :return: ([x, y], radius) of the ball if it is found
         """
-        mask = self.make_mask()
-        contours = self.find_contours(mask)
+        self.make_mask()
+        contours = self.find_contours()
         return self.find_round_object(contours)
 
 
@@ -191,6 +184,6 @@ class CarFinder(BallFinder):
 
         :return: [[center_x, center_y][tip_x, tip_y]] of the car if it is found
         """
-        mask = self.make_mask()
-        contours = self.find_contours(mask)
+        self.make_mask()
+        contours = self.find_contours()
         return self.find_arrow(contours)
