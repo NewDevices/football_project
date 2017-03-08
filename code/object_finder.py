@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import itertools
 from typing import List, Optional, Tuple
-from helper_functions import angle, as_rad, intersection
+from helper_functions import as_rad, intersection, smaller_angle
 
 
 class ObjectFinder(object):
@@ -84,27 +84,6 @@ class BallFinder(ObjectFinder):
 
 
 class CarFinder(BallFinder):
-    def smaller_angle(
-            self,
-            v1: np.ndarray,
-            v2: np.ndarray,
-            min_angle: int = 10,
-    ) -> float:
-        """
-        Find the smaller angle between two vectors that is at least min_angle.
-
-        :param v1: First vector
-        :param v2: Second vector
-        :param min_angle: Minimum angle (in deg) that is kept. Angles below
-                          that will be discarded.
-        :return: Minimum angle between v1 and v2 that is at least min_angle
-        """
-        min_angle = as_rad(min_angle)
-        angles = [angle(v1, v2)]
-        angles.append(np.pi - angles[0])
-        filter(lambda a: a >= min_angle, angles)
-        return min(angles)
-
     def find_angled_lines(
             self,
             arrow_angle: int,
@@ -134,7 +113,7 @@ class CarFinder(BallFinder):
         best = min(
             vector_combinations,
             key=lambda c: abs(
-                arrow_angle - self.smaller_angle(c[0][1], c[1][1])
+                arrow_angle - smaller_angle(c[0][1], c[1][1])
             ),
         )
         best = [lines[i] for i, _ in best]

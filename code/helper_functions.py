@@ -76,3 +76,24 @@ def intersection(
 
     t1 = (x[0] * d2[1] - x[1] * d2[0]) / cross
     return l1[0] + d1 * t1
+
+
+def smaller_angle(
+        v1: np.ndarray,
+        v2: np.ndarray,
+        min_angle: int = 10,
+) -> float:
+    """
+    Find the smaller angle between two vectors that is at least min_angle.
+
+    :param v1: First vector
+    :param v2: Second vector
+    :param min_angle: Minimum angle (in deg) that is kept. Angles below
+                      that will be discarded.
+    :return: Minimum angle between v1 and v2 that is at least min_angle
+    """
+    min_angle = as_rad(min_angle)
+    angles = [angle(v1, v2)]
+    angles.append(np.pi - angles[0])
+    filter(lambda a: a >= min_angle, angles)
+    return min(angles)
