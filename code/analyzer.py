@@ -57,6 +57,13 @@ class Analyzer(object):
             self,
             image_hsv: np.ndarray,
     ) -> Optional[Tuple[Tuple[float, float], Tuple[float, float]]]:
+        """
+        Analyze an image and look for a ball and the blue and red car. If a
+        ball is found return the cars's relations to the ball.
+
+        :param image_hsv: Image in HSV format
+        :return: blue_car_info, red_car_info
+        """
         image_hsv = cv2.medianBlur(image_hsv, 3)
 
         self._ball_finder.image = image_hsv
