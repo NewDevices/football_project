@@ -56,7 +56,7 @@ class Analyzer(object):
     def analyze(
             self,
             image_hsv: np.ndarray,
-    ) -> None:
+    ) -> Optional[Tuple[Tuple[float, float], Tuple[float, float]]]:
         image_hsv = cv2.medianBlur(image_hsv, 3)
 
         self._ball_finder.image = image_hsv
@@ -73,5 +73,14 @@ class Analyzer(object):
         ball_pos, ball_radius = ball
         print("Ball:", ball_pos, ball_radius)
 
-        self.analyze_car(ball_pos, blue_car, color="blue")
-        self.analyze_car(ball_pos, red_car, color="red")
+        blue_car_dist, blue_car_angle = self.analyze_car(
+            ball_pos,
+            blue_car,
+            color="blue"
+        )
+        red_car_dist, red_car_angle = self.analyze_car(
+            ball_pos,
+            red_car,
+            color="red"
+        )
+        return (blue_car_dist, blue_car_angle), (red_car_dist, red_car_angle)
