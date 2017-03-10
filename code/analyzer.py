@@ -73,14 +73,14 @@ class Analyzer(object):
         ball_pos, ball_radius = ball
         print("Ball:", ball_pos, ball_radius)
 
-        blue_car_dist, blue_car_angle = self.analyze_car(
+        blue_car_info = self.analyze_car(
             ball_pos,
             blue_car,
             color="blue"
         )
-        red_car_dist, red_car_angle = self.analyze_car(
+        red_car_info = self.analyze_car(
             ball_pos,
             red_car,
             color="red"
         )
-        return (blue_car_dist, blue_car_angle), (red_car_dist, red_car_angle)
+        return blue_car_info, red_car_info
