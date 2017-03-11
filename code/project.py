@@ -1,5 +1,6 @@
 import cv2
 from analyzer import Analyzer
+from planner import Planner
 
 # author: Hendrik Werner s4549775
 
@@ -16,4 +17,5 @@ analyzer = Analyzer(
     lower_red=[[170, 128, 50], [0, 128, 50]],
     upper_red=[[180, 255, 255], [10, 255, 255]],
 )
-analyzer.analyze(imageHSV)
+planner = Planner(analyzer)
+planner.plan(imageHSV)
