@@ -2,6 +2,7 @@
 
 import numpy as np
 from analyzer import Analyzer
+from typing import Optional, Tuple
 
 
 class Planner(object):
@@ -14,7 +15,7 @@ class Planner(object):
     def plan(
             self,
             image_hsv: np.ndarray,
-    ):
+    ) -> Optional[Tuple[str, str]]:
         info = self.analyzer.analyze(image_hsv)
         if info is None:
             return
