@@ -15,4 +15,7 @@ class Planner(object):
             self,
             image_hsv: np.ndarray,
     ):
-        pass
+        info = self.analyzer.analyze(image_hsv)
+        if info is None:
+            return
+        blue_car, red_car = info
