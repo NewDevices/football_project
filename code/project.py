@@ -8,11 +8,6 @@ from planner import Planner
 with open("config.yml") as conf_file:
     conf = yaml.safe_load(conf_file)
 
-capture_path = "../capture.png"
-
-image = cv2.imread(capture_path)
-imageHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
 analyzer = Analyzer(
     conf["ball"]["lower"],
     conf["ball"]["upper"],
@@ -22,4 +17,12 @@ analyzer = Analyzer(
     conf["red_car"]["upper"],
 )
 planner = Planner(analyzer)
-planner.plan(imageHSV)
+webcam = cv2.VideoCapture(conf["capture_device"])
+
+while True:
+    success, image = webcam.read()
+    if success:
+        imageHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        cv2.imshow("Webcam", image)
+        cv2.waitKey(100)
+        planner.plan(imageHSV)
