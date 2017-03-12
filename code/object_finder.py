@@ -104,6 +104,8 @@ class CarFinder(BallFinder):
         if lines is None:
             return []
         lines = lines.squeeze()
+        if len(lines.shape) == 1:
+            return [lines]
 
         vectors = [
             (i, [x2 - x1, y2 - y1]) for i, (x1, y1, x2, y2) in enumerate(lines)
