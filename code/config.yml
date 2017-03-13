@@ -3,9 +3,9 @@ capture_device: 0
 
 ball:
   lower:
-    - [15, 128, 50]
+    - [20, 64, 128]
   upper:
-    - [25, 255, 255]
+    - [40, 255, 255]
 
 blue_car:
   lower:
