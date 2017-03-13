@@ -10,22 +10,21 @@ from helper_functions import as_rad, intersection, smaller_angle
 class ObjectFinder(object):
     def __init__(
             self,
-            color_lower: List[List[int]],
-            color_upper: List[List[int]],
+            thresholds: List[dict],
             image_hsv: np.ndarray = None,
     ):
         """
         Initialize an object finder.
 
         :param image: The image in which to find objects in HSV format
-        :param color_lower: The lower color thresholds (in HSV)
-        :param color_upper: The upper color thresholds (in HSV)
+        :param thresholds: List of dicts containing "lower" and "upper" keys
+                           which are lists of integers of the form [H, S, V]
         """
-        assert len(color_lower) == len(color_upper)
-
         self.image = image_hsv
-        self._color_lower = np.uint8(color_lower)
-        self._color_upper = np.uint8(color_upper)
+        self._color_thresholds = thresholds
+        for threshold in thresholds:
+            threshold["lower"] = np.uint8(threshold["lower"])
+            threshold["upper"] = np.uint8(threshold["upper"])
 
     def make_mask(
             self,
@@ -34,11 +33,11 @@ class ObjectFinder(object):
         Make a mask that captures pixels in a color range.
         """
         self.mask = np.zeros(self.image.shape[:2], dtype=np.uint8)
-        for lower, upper in zip(self._color_lower, self._color_upper):
+        for threshold in self._color_thresholds:
             self.mask += cv2.inRange(
                 self.image,
-                lower,
-                upper,
+                threshold["lower"],
+                threshold["upper"],
             )
         self.mask = cv2.blur(self.mask, (3, 3))
 

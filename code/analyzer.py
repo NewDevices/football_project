@@ -46,16 +46,13 @@ class Analyzer(object):
 
     def __init__(
             self,
-            lower_ball: List[List[int]],
-            upper_ball: List[List[int]],
-            lower_blue: List[List[int]],
-            upper_blue: List[List[int]],
-            lower_red: List[List[int]],
-            upper_red: List[List[int]],
+            ball_thresholds: List[dict],
+            blue_thresholds: List[dict],
+            red_thresholds: List[dict],
     ):
-        self._ball_finder = BallFinder(lower_ball, upper_ball)
-        self._blue_car_finder = CarFinder(lower_blue, upper_blue)
-        self._red_car_finder = CarFinder(lower_red, upper_red)
+        self._ball_finder = BallFinder(ball_thresholds)
+        self._blue_car_finder = CarFinder(blue_thresholds)
+        self._red_car_finder = CarFinder(red_thresholds)
 
     def analyze_car(
             self,

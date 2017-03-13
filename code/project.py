@@ -9,12 +9,9 @@ with open("config.yml") as conf_file:
     conf = yaml.safe_load(conf_file)
 
 analyzer = Analyzer(
-    conf["ball"]["lower"],
-    conf["ball"]["upper"],
-    conf["blue_car"]["lower"],
-    conf["blue_car"]["upper"],
-    conf["red_car"]["lower"],
-    conf["red_car"]["upper"],
+    conf["ball"],
+    conf["blue_car"],
+    conf["red_car"],
 )
 planner = Planner(analyzer)
 webcam = cv2.VideoCapture(conf["capture_device"])
