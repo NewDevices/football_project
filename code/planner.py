@@ -15,11 +15,11 @@ class Planner(object):
     def plan(
             self,
             image_hsv: np.ndarray,
-    ) -> Optional[Tuple[str, str]]:
+    ) -> Optional[Tuple[Optional[str], Optional[str]]]:
         info = self.analyzer.analyze(image_hsv)
         if info is None:
             return
-        blue_car, red_car = info
+        return self._plan_car(info[0]), self._plan_car(info[1])
 
     def _plan_car(
             self,
