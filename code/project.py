@@ -19,10 +19,11 @@ analyzer = Analyzer(
 planner = Planner(analyzer)
 webcam = cv2.VideoCapture(conf["capture_device"])
 
-while True:
+key = None
+while key != 27:
     success, image = webcam.read()
     if success:
         imageHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
         cv2.imshow("Webcam", image)
-        cv2.waitKey(100)
+        key = cv2.waitKey(100)
         planner.plan(imageHSV)
