@@ -100,7 +100,7 @@ class CarFinder(BallFinder):
         cv2.drawContours(contour_img, self.contours, -1, 255)
         contour_img = cv2.blur(contour_img, (2, 2))
 
-        lines = cv2.HoughLinesP(contour_img, 1, np.pi / 180, 15, 5, 10)
+        lines = cv2.HoughLinesP(contour_img, 1, np.pi / 180, 30, 10, 20)
         if lines is None:
             return []
         lines = lines.squeeze()
