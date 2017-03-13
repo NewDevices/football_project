@@ -2,7 +2,7 @@
 capture_device: 0
 
 ball:
-  - lower: [20, 64, 128]
+  - lower: [20, 128, 128]
     upper: [40, 255, 255]
 
 blue_car:
