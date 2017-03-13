@@ -20,3 +20,15 @@ class Planner(object):
         if info is None:
             return
         blue_car, red_car = info
+
+    def _plan_car(
+            self,
+            car
+    ) -> Optional[str]:
+        if car is None:
+            return
+        else:
+            if car[1] > 5:
+                return "left {:.0f}".format(car[1])
+            else:
+                return "forward {:.0f}".format(min(car[0] * 100, 50))
