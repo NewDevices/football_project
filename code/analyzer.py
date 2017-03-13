@@ -10,6 +10,40 @@ from object_finder import CarFinder, BallFinder
 
 
 class Analyzer(object):
+    @staticmethod
+    def show_positions(
+            image_hsv: np.ndarray,
+            ball: Optional[Tuple[np.ndarray, int]]=None,
+            blue_car: Optional[Tuple[np.ndarray, np.ndarray]]=None,
+            red_car: Optional[Tuple[np.ndarray, np.ndarray]]=None,
+    ) -> None:
+        """
+        Show the positions of the objects that were found.
+
+        :param image_hsv: Image in HSV format
+        :param ball: (ball_position, ball_radius)
+        :param blue_car: (blue_car_pos, blue_car_tip)
+        :param red_car: (red_car_pos, red_car_tip)
+        """
+        image = cv2.cvtColor(image_hsv, cv2.COLOR_HSV2BGR)
+        if ball is not None:
+            cv2.circle(image, tuple(ball[0]), ball[1], (255, 0, 0), 2)
+        if blue_car is not None:
+            cv2.arrowedLine(
+                image,
+                tuple(blue_car[0]),
+                tuple(blue_car[1]),
+                (0, 0, 255), 2,
+            )
+        if red_car is not None:
+            cv2.arrowedLine(
+                image,
+                tuple(red_car[0]),
+                tuple(red_car[1]),
+                (0, 255, 0), 2,
+            )
+        cv2.imshow("Positions", image)
+
     def __init__(
             self,
             lower_ball: List[List[int]],
@@ -49,8 +83,6 @@ class Analyzer(object):
             ))
             dist_to_ball = float(norm(car_ball_vector) / norm(car_vector) - 1)
 
-            print("{} Car:".format(color.capitalize()), car_pos, car_tip)
-            print("Angle:", car_angle, "Distance:", dist_to_ball)
             return dist_to_ball, car_angle
 
     def analyze(
@@ -78,7 +110,8 @@ class Analyzer(object):
             print("No ball found.", file=sys.stderr)
             return
         ball_pos, ball_radius = ball
-        print("Ball:", ball_pos, ball_radius)
+
+        self.show_positions(image_hsv, ball, blue_car, red_car)
 
         blue_car_info = self.analyze_car(
             ball_pos,
