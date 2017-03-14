@@ -83,6 +83,29 @@ class BallFinder(ObjectFinder):
 
 
 class CarFinder(BallFinder):
+    @staticmethod
+    def angle_heuristic(
+            desired_angle: float,
+            v1: np.ndarray,
+            v2: np.ndarray,
+            min_angle: int = 10,
+    ) -> float:
+        """
+        :param desired_angle: Desired angle in radians
+        :param v1: First vector
+        :param v2: Second vector
+        :param min_angle: Minimum valid angle in degrees
+        :return: Heuristic to minimize
+        """
+        min_angle = as_rad(min_angle)
+        inner_angle = angle(v1, v2, True)
+        if inner_angle < min_angle:
+            return np.pi * 2
+        return min(
+            abs(desired_angle - inner_angle),
+            abs(desired_angle - np.pi + inner_angle),
+        )
+
     def find_angled_lines(
             self,
             arrow_angle: int,
@@ -113,9 +136,7 @@ class CarFinder(BallFinder):
         arrow_angle = as_rad(arrow_angle)
         best = min(
             vector_combinations,
-            key=lambda c: abs(
-                arrow_angle - angle(c[0][1], c[1][1])
-            ),
+            key=lambda c: self.angle_heuristic(arrow_angle, c[0][1], c[1][1])
         )
         best = [lines[i] for i, _ in best]
 
