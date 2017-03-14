@@ -7,7 +7,7 @@ ball:
 
 blue_car:
   - lower: [110, 64, 64]
-    upper: [130, 192, 255]
+    upper: [130, 255, 255]
 
 red_car:
   - lower: [170, 64, 128]
