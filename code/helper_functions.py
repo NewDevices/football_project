@@ -17,16 +17,20 @@ def normalize(
 def angle(
         v1: np.ndarray,
         v2: np.ndarray,
+        inner: bool=False,
 ) -> float:
     """
     :param v1: One vector
     :param v2: Another vector
+    :param inner: Whether to calculate the inner angle
     :return: Angle between the two vectors
     """
     v1 = normalize(v1)
     v2 = normalize(v2)
-    cross = np.cross(v1, v2)
     angle = np.arccos(np.clip(np.dot(v1, v2), a_min=-1, a_max=1))
+    if inner:
+        return angle
+    cross = np.cross(v1, v2)
     return angle if cross <= 0 else np.pi * 2 - angle
 
 
