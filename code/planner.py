@@ -23,7 +23,7 @@ class Planner(object):
 
     def _plan_car(
             self,
-            car
+            car: Optional[Tuple[float, float]],
     ) -> Optional[str]:
         if car is None:
             return
