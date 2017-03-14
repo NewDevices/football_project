@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import itertools
 from typing import List, Optional, Tuple
-from helper_functions import as_rad, intersection, smaller_angle
+from helper_functions import as_rad, intersection, angle
 
 
 class ObjectFinder(object):
@@ -114,7 +114,7 @@ class CarFinder(BallFinder):
         best = min(
             vector_combinations,
             key=lambda c: abs(
-                arrow_angle - smaller_angle(c[0][1], c[1][1])
+                arrow_angle - angle(c[0][1], c[1][1])
             ),
         )
         best = [lines[i] for i, _ in best]
