@@ -28,7 +28,10 @@ class Planner(object):
         if car is None:
             return
         else:
-            if car[1] > 5:
-                return "left {:.0f}".format(car[1])
+            if 5 < car[1] <= 180:
+                direction = ("left", car[1])
+            elif 180 < car[1] < 355:
+                direction = ("right", 360 - car[1])
             else:
                 return "forward {:.0f}".format(min(car[0] * 100, 50))
+            return "{} {:.0f}".format(*direction)
