@@ -2,6 +2,7 @@ import cv2
 import yaml
 from analyzer import Analyzer
 from planner import Planner
+from helper_functions import newest_frame
 
 # author: Hendrik Werner s4549775
 
@@ -14,11 +15,10 @@ analyzer = Analyzer(
     conf["red_car"],
 )
 planner = Planner(analyzer)
-webcam = cv2.VideoCapture(conf["capture_device"])
 
 key = None
 while key != 27:
-    success, image = webcam.read()
+    success, image = newest_frame(conf["capture_device"])
     if success:
         imageHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
         cv2.imshow("Webcam", image)

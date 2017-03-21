@@ -1,7 +1,8 @@
 # author: Hendrik Werner s4549775
 
+import cv2
 import numpy as np
-from typing import Optional
+from typing import Optional, Tuple
 
 
 def normalize(
@@ -82,3 +83,26 @@ def intersection(
 
     t1 = (x[0] * d2[1] - x[1] * d2[0]) / cross
     return l1[0] + d1 * t1
+
+
+def newest_frame(
+        capture_device: int=0
+) -> Tuple[bool, Optional[np.ndarray]]:
+    """
+    Capture the newest frame from the webcam.
+
+    This should not be hard but the cv2.CAP_PROP_BUFFERSIZE property cannot be
+    set or retrieved from the camera. We do not know why this is exactly. There
+    are several proposed workarounds for this problem and this is one of them.
+
+    The capture device is opened, a frame is captured and then it is closed
+    again. This circumvents the internal frame buffer and allows us to capture
+    the newest frame.
+
+    :param capture_device: Capture device (ID / filename)
+    :return: (success, frame)
+    """
+    webcam = cv2.VideoCapture(capture_device)
+    capture = webcam.read()
+    webcam.release()
+    return capture
