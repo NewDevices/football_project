@@ -103,6 +103,9 @@ class Analyzer(object):
         blue_car = self._blue_car_finder.find_car()
         red_car = self._red_car_finder.find_car()
 
+        cv2.imshow("Blue Mask", self._blue_car_finder.mask)
+        cv2.imshow("Red Mask", self._red_car_finder.mask)
+
         if ball is None:
             print("No ball found.", file=sys.stderr)
             return
