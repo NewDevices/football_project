@@ -16,7 +16,7 @@ analyzer = Analyzer(
 )
 planner = Planner(
     analyzer,
-    car_length=105,
+    conf["car_length"],
 )
 
 key = None

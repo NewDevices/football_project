@@ -1,6 +1,8 @@
 ---
 capture_device: 0
 
+car_length: 105
+
 ball:
   - lower: [20, 64, 192]
     upper: [40, 255, 255]
