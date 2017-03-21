@@ -17,10 +17,9 @@ analyzer = Analyzer(
 planner = Planner(analyzer)
 
 key = None
-while key != 27:
+while cv2.waitKey(1) != 27:
     success, image = newest_frame(conf["capture_device"])
     if success:
         imageHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
         cv2.imshow("Webcam", image)
-        key = cv2.waitKey(100)
         planner.plan(imageHSV)
