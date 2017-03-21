@@ -53,6 +53,20 @@ class ObjectFinder(object):
             cv2.CHAIN_APPROX_SIMPLE,
         )[1]
 
+    def filter_contours(
+            self,
+            minimum_area: int=300,
+    ) -> None:
+        """
+        Filter out unwanted contours.
+
+        :param minimum_area: Contours with an area at least this size are kept
+        """
+        self.contours = [
+            c for c in self.contours
+            if cv2.contourArea(c) >= minimum_area
+        ]
+
 
 class BallFinder(ObjectFinder):
     def find_round_object(
@@ -79,6 +93,7 @@ class BallFinder(ObjectFinder):
         """
         self.make_mask()
         self.find_contours()
+        self.filter_contours()
         return self.find_round_object()
 
 
@@ -185,4 +200,5 @@ class CarFinder(BallFinder):
         """
         self.make_mask()
         self.find_contours()
+        self.filter_contours()
         return self.find_arrow()
