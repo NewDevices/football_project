@@ -14,7 +14,10 @@ analyzer = Analyzer(
     conf["blue_car"],
     conf["red_car"],
 )
-planner = Planner(analyzer)
+planner = Planner(
+    analyzer,
+    car_length=105,
+)
 
 key = None
 while cv2.waitKey(1) != 27:

@@ -9,8 +9,10 @@ class Planner(object):
     def __init__(
             self,
             analyzer: Analyzer,
+            car_length: int,
     ):
         self.analyzer = analyzer
+        self.car_length = car_length
 
     def plan(
             self,
@@ -28,10 +30,12 @@ class Planner(object):
         if car is None:
             return
         else:
-            if 5 < car[1] <= 180:
-                direction = ("left", car[1])
+            if car[0] < 0:
+                action = ("backward", min(-car[0], .5) * self.car_length)
+            elif 5 < car[1] <= 180:
+                action = ("left", car[1])
             elif 180 < car[1] < 355:
-                direction = ("right", 360 - car[1])
+                action = ("right", 360 - car[1])
             else:
-                return "forward {:.0f}".format(min(car[0] * 100, 50))
-            return "{} {:.0f}".format(*direction)
+                action = ("forward", min(car[0], .5) * self.car_length)
+            return "{:s} {:.0f}".format(*action)
