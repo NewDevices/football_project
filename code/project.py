@@ -19,7 +19,6 @@ planner = Planner(
     conf["car_length"],
 )
 
-key = None
 while cv2.waitKey(1) != 27:
     success, image = newest_frame(conf["capture_device"])
     if success:
