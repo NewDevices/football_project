@@ -86,7 +86,7 @@ def intersection(
 
 
 def newest_frame(
-        capture_device: int=0
+        source: cv2.VideoCapture,
 ) -> Tuple[bool, Optional[np.ndarray]]:
     """
     Capture the newest frame from the webcam.
@@ -95,14 +95,13 @@ def newest_frame(
     set or retrieved from the camera. We do not know why this is exactly. There
     are several proposed workarounds for this problem and this is one of them.
 
-    The capture device is opened, a frame is captured and then it is closed
-    again. This circumvents the internal frame buffer and allows us to capture
-    the newest frame.
+    We simply skip over the frame buffer to capture the newest frame. Of all
+    the workarounds we tested so far this seems to be the most reliable and
+    least laggy.
 
-    :param capture_device: Capture device (ID / filename)
+    :param source: Capture source
     :return: (success, frame)
     """
-    webcam = cv2.VideoCapture(capture_device)
-    capture = webcam.read()
-    webcam.release()
+    for _ in range(5):
+        capture = source.read()
     return capture
