@@ -102,6 +102,6 @@ def newest_frame(
     :param source: Capture source
     :return: (success, frame)
     """
-    for _ in range(5):
-        capture = source.read()
-    return capture
+    for _ in range(4):
+        source.grab()
+    return source.read()
