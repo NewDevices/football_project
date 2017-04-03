@@ -133,16 +133,16 @@ class CarFinder(BallFinder):
         :return: [l1, l2] where l1 and l2 are the lines which are closest to
                  the specified angle
         """
-        contour_img = np.zeros(self.image.shape[:2], dtype=np.uint8)
-        cv2.drawContours(contour_img, self.contours, -1, 255)
-        contour_img = cv2.blur(contour_img, (2, 2))
-
-        lines = cv2.HoughLinesP(contour_img, 1, np.pi / 180, 30, 10, 20)
-        if lines is None:
-            return []
-        lines = lines.squeeze()
-        if len(lines.shape) == 1:
-            return [lines]
+        approx_contours = [
+            cv2.approxPolyDP(c, 10, closed=True) for c in self.contours
+        ]
+        lines = []
+        for contour in approx_contours:
+            contour = contour.squeeze()
+            for p1, p2 in zip(contour, np.array([*contour[1:], contour[:1]])):
+                lines.append(np.append(p1, p2))
+        if len(lines) < 2:
+            return lines
 
         vectors = [
             (i, [x2 - x1, y2 - y1]) for i, (x1, y1, x2, y2) in enumerate(lines)
