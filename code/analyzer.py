@@ -100,13 +100,12 @@ class Analyzer(object):
         self._red_car_finder.image = image_hsv
 
         ball = self._ball_finder.find_ball()
-        blue_car = self._blue_car_finder.find_car()
-        red_car = self._red_car_finder.find_car()
-
         if ball is None:
             print("No ball found.", file=sys.stderr)
             return
         ball_pos, ball_radius = ball
+        blue_car = self._blue_car_finder.find_car()
+        red_car = self._red_car_finder.find_car()
 
         self.show_positions(image_hsv, ball, blue_car, red_car)
 
