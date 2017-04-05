@@ -134,11 +134,11 @@ class CarFinder(BallFinder):
                  the specified angle
         """
         approx_contours = [
-            cv2.approxPolyDP(c, 10, closed=True) for c in self.contours
+            cv2.approxPolyDP(c, 10, closed=True).squeeze()
+            for c in self.contours
         ]
         lines = []
         for contour in approx_contours:
-            contour = contour.squeeze()
             for p1, p2 in zip(contour, np.array([*contour[1:], contour[:1]])):
                 lines.append(np.append(p1, p2))
         if len(lines) < 2:
