@@ -36,6 +36,8 @@ class Planner(object):
                 action = ("left", car[1])
             elif 180 < car[1] < 355:
                 action = ("right", 360 - car[1])
-            else:
+            elif car[0] > .1 * self.car_length:
                 action = ("forward", min(car[0], .5) * self.car_length)
+            else:
+                return "down"
             return "{:s} {:.0f}".format(*action)
