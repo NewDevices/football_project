@@ -133,29 +133,30 @@ class CarFinder(BallFinder):
         :return: [l1, l2] where l1 and l2 are the lines which are closest to
                  the specified angle
         """
-        approx_contours = [
-            cv2.approxPolyDP(c, 10, closed=True).squeeze()
-            for c in self.contours
-        ]
-        lines = []
-        for contour in approx_contours:
+        arrow_angle = as_rad(arrow_angle)
+        best_combinations = []
+
+        for contour in self.contours:
+            contour = cv2.approxPolyDP(contour, 10, closed=True).squeeze()
+            lines = []
             for p1, p2 in zip(contour, np.array([*contour[1:], contour[:1]])):
                 lines.append(np.append(p1, p2))
-        if len(lines) < 2:
-            return lines
-
-        vectors = [
-            (i, [x2 - x1, y2 - y1]) for i, (x1, y1, x2, y2) in enumerate(lines)
+            vectors = [
+                (i, [x2 - x1, y2 - y1])
+                for i, (x1, y1, x2, y2) in enumerate(lines)
             ]
-        vector_combinations = itertools.combinations(vectors, 2)
-        arrow_angle = as_rad(arrow_angle)
-        best = min(
-            vector_combinations,
-            key=lambda c: self.angle_heuristic(arrow_angle, c[0][1], c[1][1])
-        )
-        best = [lines[i] for i, _ in best]
+            combinations = [
+                (self.angle_heuristic(arrow_angle, c[0][1], c[1][1]), c)
+                for c in itertools.combinations(vectors, 2)
+            ]
+            best = min(combinations, key=lambda c: c[0])
+            best_combinations.append(
+                (best[0], [lines[best[1][0][0]], lines[best[1][1][0]]])
+            )
 
-        return best
+        return min(
+            best_combinations, key=lambda c: c[0]
+        )[1]
 
     def find_arrow(
             self,
