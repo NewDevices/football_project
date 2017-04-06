@@ -13,6 +13,7 @@ class Planner(object):
     ):
         self.analyzer = analyzer
         self.car_length = car_length
+        self.got_ball = False
 
     def plan(
             self,
@@ -39,5 +40,9 @@ class Planner(object):
             elif car[0] > .4:
                 action = ("forward", min(car[0], .5) * self.car_length)
             else:
-                return "down"
+                if not self.got_ball:
+                    self.got_ball = True
+                    return "down"
+                else:
+                    return
             return "{:s} {:.0f}".format(*action)
