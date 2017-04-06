@@ -28,4 +28,5 @@ while cv2.waitKey(1) != 27:
     if success:
         cv2.imshow("Webcam", image)
         plan = planner.plan(cv2.cvtColor(image, cv2.COLOR_BGR2HSV))
-        run(command + plan[1].split())  # red car
+        if plan is not None:
+            run(command + plan[1].split())  # red car
