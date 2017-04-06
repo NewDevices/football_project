@@ -7,11 +7,10 @@ from helper_functions import newest_frame
 
 # author: Hendrik Werner s4549775
 
-command = ["java", "-jar", "executor.jar"]
-
 with open("config.yml") as conf_file:
     conf = yaml.safe_load(conf_file)
 
+command = conf["executor"].split()
 analyzer = Analyzer(
     conf["ball"],
     conf["blue_car"],

@@ -1,4 +1,6 @@
 ---
+executor: java -jar executor.jar
+
 capture_device: 0
 
 car_length: 105
