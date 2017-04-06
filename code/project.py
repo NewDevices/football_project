@@ -3,7 +3,6 @@ import yaml
 from subprocess import run
 from analyzer import Analyzer
 from planner import Planner
-from helper_functions import newest_frame
 
 # author: Hendrik Werner s4549775
 
