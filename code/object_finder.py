@@ -154,9 +154,7 @@ class CarFinder(BallFinder):
                 (best[0], [lines[best[1][0][0]], lines[best[1][1][0]]])
             )
 
-        return min(
-            best_combinations, key=lambda c: c[0]
-        )[1]
+        return min(best_combinations)[1]
 
     def find_arrow(
             self,
