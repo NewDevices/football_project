@@ -56,14 +56,14 @@ class Analyzer(object):
 
     def analyze_car(
             self,
-            ball_pos: np.ndarray,
+            ball: np.ndarray,
             car: np.ndarray,
             color: str = "",
     ) -> Optional[Tuple[float, float]]:
         """
         Analyze a car.
 
-        :param ball_pos: Position of the ball
+        :param ball_pos: ([x, y], radius) of the ball
         :param car: [[x, y], [tip_x, tip_y]] of the car
         :param color: Color of the car
         :return: (dist_to_ball, car_angle) if the car is not None
@@ -71,6 +71,7 @@ class Analyzer(object):
         if car is None:
             print("No {} car found.".format(color), file=sys.stderr)
         else:
+            ball_pos, ball_radius = ball
             car_pos, car_tip = car
             car_vector = car_tip - car_pos
             car_ball_vector = ball_pos - car_pos
@@ -78,7 +79,10 @@ class Analyzer(object):
                 car_vector,
                 car_ball_vector,
             ))
-            dist_to_ball = float(norm(car_ball_vector) / norm(car_vector) - 1)
+            dist_to_ball = float(
+                norm(car_ball_vector) / norm(car_vector) -
+                1 - ball_radius / norm(car_vector)
+            )
 
             return dist_to_ball, car_angle
 
@@ -103,19 +107,18 @@ class Analyzer(object):
         if ball is None:
             print("No ball found.", file=sys.stderr)
             return
-        ball_pos, ball_radius = ball
         blue_car = self._blue_car_finder.find_car()
         red_car = self._red_car_finder.find_car()
 
         self.show_positions(image_hsv, ball, blue_car, red_car)
 
         blue_car_info = self.analyze_car(
-            ball_pos,
+            ball,
             blue_car,
             color="blue"
         )
         red_car_info = self.analyze_car(
-            ball_pos,
+            ball,
             red_car,
             color="red"
         )
