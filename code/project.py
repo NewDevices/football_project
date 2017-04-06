@@ -1,10 +1,13 @@
 import cv2
 import yaml
+from subprocess import run
 from analyzer import Analyzer
 from planner import Planner
 from helper_functions import newest_frame
 
 # author: Hendrik Werner s4549775
+
+command = ["java", "-jar", "executor.jar"]
 
 with open("config.yml") as conf_file:
     conf = yaml.safe_load(conf_file)
@@ -24,4 +27,5 @@ while cv2.waitKey(1) != 27:
     success, image = newest_frame(webcam)
     if success:
         cv2.imshow("Webcam", image)
-        planner.plan(cv2.cvtColor(image, cv2.COLOR_BGR2HSV))
+        plan = planner.plan(cv2.cvtColor(image, cv2.COLOR_BGR2HSV))
+        run(command + plan[1].split())  # red car
