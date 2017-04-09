@@ -22,7 +22,7 @@ Tested with Python 3.5 and 3.6.
 1. Install OpenCV
 
 	* Windows: `pip install opencv-python`
-	* Unix: You need to compile OpenCV yourself, because we use modules that are not supported in the python package.
+	* Unix: You need to [compile OpenCV yourself](http://opencv.org/releases.html), because we use modules that are not supported in the python package.
 
 ### Java
 
