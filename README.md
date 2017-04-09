@@ -29,6 +29,7 @@ Tested with Python 3.5 and 3.6.
 ## Confuguration
 A YAML config file is provided to ease configuration `code/config.yml`
 
+* `executor`: Command used to execute the plan of action.
 * `capture_device`: ID of the capture device to use. Probably 0 if you only have one camera connected.
 * `car_length`: Length of the car in millimeters. Note that this is measured from the center of the arrow to the tip.
 * `ball`: [Color thresholds](#color-thresholds) for the ball.
