@@ -43,3 +43,9 @@ Color thresholds are provided as lists of lower/upper HSV pairs, for example:
 	    upper: [180, 255, 255]
 
 This captures all pixels in the image.
+
+## Usage
+	# Go to the code directory
+	cd code/
+	# Run the project
+	python project.py
