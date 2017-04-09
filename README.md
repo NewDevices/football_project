@@ -38,8 +38,8 @@ A YAML config file is provided to ease configuration `code/config.yml`
 ### Color thresholds
 Color thresholds are provided as lists of lower/upper HSV pairs, for example:
 
-		ball:
-		  - lower: [0, 0, 0]
-		    upper: [180, 255, 255]
+	ball:
+	  - lower: [0, 0, 0]
+	    upper: [180, 255, 255]
 
 This captures all pixels in the image.
