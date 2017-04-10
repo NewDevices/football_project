@@ -33,7 +33,7 @@ A YAML config file is provided to ease configuration `code/config.yml`
 * `car_length`: Length of the car in millimeters. Note that this is measured from the center of the arrow to the tip.
 * `ball`: [Color thresholds](#color-thresholds) for the ball.
 * `blue_car`: [Color thresholds](#color-thresholds) for the blue car.
-* `red_car`: [Color thresholds](#color-thresholds) for the blue car.
+* `red_car`: [Color thresholds](#color-thresholds) for the red car.
 
 ### Color thresholds
 Color thresholds are provided as lists of lower/upper HSV pairs, for example:
