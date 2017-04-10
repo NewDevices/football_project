@@ -25,6 +25,7 @@ Tested with Python 3.5 and 3.6.
 	* Unix: You need to [compile OpenCV yourself](http://opencv.org/releases.html), because we use modules that are not supported in the python package.
 
 ### Java
+We used [Eclipse with the LeJOS NXJ Support](http://www.lejos.org/nxt/nxj/tutorial/Preliminaries/UsingEclipse.htm) plugin. Different strategies might work but were not tested by us.
 
 ## Confuguration
 A YAML config file is provided to ease configuration `code/config.yml`
