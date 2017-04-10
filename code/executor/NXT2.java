@@ -47,10 +47,11 @@ public class NXT2 {
         try {
             Thread.sleep(turnTime * (degree + startTurnTime));
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("The sleep was interrupted.");
+        } finally {
+            Motor.B.stop();
+            Motor.C.stop();
         }
-        Motor.B.stop();
-        Motor.C.stop();
     }
 
     /**
@@ -71,10 +72,11 @@ public class NXT2 {
         try {
             Thread.sleep(driveTime * (distance + startDriveTime));
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("The sleep was interrupted.");
+        } finally {
+            Motor.B.stop();
+            Motor.C.stop();
         }
-        Motor.B.stop();
-        Motor.C.stop();
     }
 
     /**
@@ -84,15 +86,13 @@ public class NXT2 {
      * @param down If true, then the catcher will go down, else it will go up
      */
     public static void turn(boolean down) {
+        if (down) {
+            Motor.A.forward();
+        } else {
+            Motor.A.backward();
+        }
         try {
-            if (down) {
-                Motor.A.forward();
-                Thread.sleep(catchTime);
-
-            } else {
-                Motor.A.backward();
-                Thread.sleep(catchTime);
-            }
+            Thread.sleep(catchTime);
         } catch (InterruptedException e) {
             System.out.println("The sleep was interrupted.");
         } finally {
@@ -100,27 +100,23 @@ public class NXT2 {
         }
     }
 
-    public static void computerProgram(String[] args) {
+    public static void main(String[] args) {
         Motor.A.setSpeed(50);
         Motor.B.setSpeed(100);
         Motor.C.setSpeed(100);
         if (args[0].equals("forward")) {
-            NXT2.drive(Integer.valueOf(args[1]), true);
+            drive(Integer.valueOf(args[1]), true);
         } else if (args[0].equals("backward")) {
-            NXT2.drive(Integer.valueOf(args[1]), false);
+            drive(Integer.valueOf(args[1]), false);
         } else if (args[0].equals("left")) {
-            NXT2.turnLeft(Integer.valueOf(args[1]));
+            turnLeft(Integer.valueOf(args[1]));
         } else if (args[0].equals("right")) {
-            NXT2.turnRight(Integer.valueOf(args[1]));
+            turnRight(Integer.valueOf(args[1]));
         } else if (args[0].equals("up")) {
-            NXT2.turn(false);
+            turn(false);
         } else if (args[0].equals("down")) {
-            NXT2.turn(true);
+            turn(true);
         }
         System.out.println("done");
-    }
-
-    public static void main(String[] args) {
-        NXT2.computerProgram(args);
     }
 }
