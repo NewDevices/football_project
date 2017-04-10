@@ -100,7 +100,7 @@ public class NXT2 {
         }
     }
 
-    public static void computerProgram(String[] args) throws InterruptedException {
+    public static void computerProgram(String[] args) {
         Motor.A.setSpeed(50);
         Motor.B.setSpeed(100);
         Motor.C.setSpeed(100);
@@ -120,7 +120,7 @@ public class NXT2 {
         System.out.println("done");
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         NXT2.computerProgram(args);
     }
 }
