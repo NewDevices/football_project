@@ -49,3 +49,10 @@ This captures all pixels in the image.
 	cd code/
 	# Run the project
 	python project.py
+	
+## Robots
+Theoretically you can use any robot you want. The system has a modular architecture that allows you to exchange parts of the system. If you decide to use another robot you must provide a system to connect to it yourself.
+
+The robot we used was a [3-Motor Chassis](http://nxtprograms.com/NXT2/3-motor_chassis/steps.html) for the Lego NXT.
+
+![Lego NXT 3-Motor Chassis](http://nxtprograms.com/NXT2/3-motor_chassis/DCP_9774.JPG)
