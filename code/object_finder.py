@@ -97,7 +97,7 @@ class BallFinder(ObjectFinder):
         return self.find_round_object()
 
 
-class CarFinder(BallFinder):
+class CarFinder(ObjectFinder):
     @staticmethod
     def angle_heuristic(
             desired_angle: float,
@@ -167,27 +167,19 @@ class CarFinder(BallFinder):
         :param arrow_angle: Angle of the arrow
         :return: [[center_x, center_y][tip_x, tip_y]] if an arrow is found
         """
-        arrow = self.find_round_object()
-
-        if arrow is None:
-            return
-
-        arr_pos = arrow[0]
         arr_lines = self.find_angled_lines(arrow_angle)
-
         if len(arr_lines) < 2:
             return
+
+        arr_pos = cv2.minEnclosingCircle(
+            np.append(arr_lines[0], arr_lines[1]).reshape((4, 2))
+        )[0]
 
         arr_tip = intersection(*arr_lines)
         if arr_tip is None:
             return
 
         return np.rint([arr_pos, arr_tip]).astype(int)
-
-    def find_ball(
-            self,
-    ):
-        raise AttributeError("Use a BallFinder to find balls.")
 
     def find_car(
             self,
